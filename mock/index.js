@@ -3,10 +3,18 @@ const { param2Obj } = require('./utils')
 
 const user = require('./user')
 const table = require('./table')
+const role = require('./system/role')
+const menu = require('./system/menu')
+const dept = require('./system/dept')
+const sysUser = require('./system/user')
 
 const mocks = [
   ...user,
-  ...table
+  ...table,
+  ...role,
+  ...menu,
+  ...dept,
+  ...sysUser
 ]
 
 // for front mock

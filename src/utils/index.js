@@ -1,7 +1,18 @@
 /**
  * Created by PanJiaChen on 16/11/18.
  */
-
+/**
+ *  前端时间格式2020-02-11T12:24:18.000+0000转化成正常格式
+ *  输入字符串：2020-02-11T12:24:18.000+0000
+ *  转化成功为：2020-02-11 12:24:18
+ */
+export function renderTime(time) {
+  if (time) {
+    const dateee = new Date(time).toJSON()
+    const datee = new Date(+new Date(dateee) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '')
+    return datee
+  }
+}
 /**
  * Parse the time to string
  * @param {(Object|string|number)} time
