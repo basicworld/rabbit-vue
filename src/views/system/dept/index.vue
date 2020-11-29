@@ -36,14 +36,14 @@
       default-expand-all
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
     >
-      <el-table-column prop="fullname" label="部门全称" />
-      <el-table-column prop="orgcode" label="部门代码" />
+      <el-table-column prop="fullname" label="部门全称" min-width="200" />
+      <el-table-column prop="orgcode" label="部门代码" min-width="140" />
       <el-table-column label="创建时间" prop="createTime">
         <template slot-scope="scope">
           <span>{{ renderTime(scope.row.createTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center">
+      <el-table-column label="操作" align="center" width="200">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -159,16 +159,34 @@ export default {
   computed: {
     // 动态筛选框
     filterData: function() {
+      /** 单个dept筛选器 */
+      var deptFilter = (dept, input) => {
+        return Object.keys(dept).some(function(key1) {
+          return String(dept[key1]).toLowerCase().match(input)
+        })
+      }
+      /** dept树遍历 筛选器 */
+      var deptLoopFilter = (dept, input) => {
+        var showMe = false // 显示标记
+        if (dept) {
+          // 判断是否显示本部门
+          showMe = showMe || deptFilter(dept, input)
+          if (dept.children) {
+            for (var i = 0; i < dept.children.length; i++) {
+              // 如果需要显示子部门，则本部门也应显示
+              showMe = showMe || deptLoopFilter(dept.children[i], input)
+            }
+          }
+        }
+        return showMe
+      }
+
       var input = this.queryParams.name && this.queryParams.name.toLowerCase()
       var items = this.tableData
       var items1
       if (input) {
         items1 = items.filter(function(item) {
-          return Object.keys(item).some(function(key1) {
-            return String(item[key1])
-              .toLowerCase()
-              .match(input)
-          })
+          return deptLoopFilter(item, input)
         })
       } else {
         items1 = items
@@ -181,6 +199,7 @@ export default {
     this.getRoleOptions()
   },
   methods: {
+
     /** 转换部门数据结构 */
     normalizer(node) {
       // 去掉children=null的属性

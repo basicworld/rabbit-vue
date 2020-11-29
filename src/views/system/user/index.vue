@@ -55,10 +55,16 @@
       <el-table-column prop="phone" label="手机号" />
       <el-table-column prop="email" label="邮箱" />
       <el-table-column prop="deptName" label="部门" />
-      <el-table-column fixed="right" label="操作" align="center">
+      <el-table-column fixed="right" label="操作" align="center" width="220">
         <template slot-scope="scope">
           <el-button type="text" size="mini" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改</el-button>
           <el-button type="text" size="mini" icon="el-icon-delete" @click="handleDelete(scope.row)">删除</el-button>
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-key"
+            @click="handleResetPwd(scope.row)"
+          >重置</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -113,18 +119,40 @@
         <el-button size="small" @click="cancel">取消</el-button>
       </div>
     </el-dialog>
+    <!-- 重置密码对话框 -->
+    <el-dialog title="重置密码" :visible.sync="pwdOpen" width="500px" append-to-body>
+      <el-form ref="pwdForm" size="small" :model="pwdForm" :rules="pwdRules" label-width="80px">
+        <el-form-item label="新密码" prop="password">
+          <el-input v-model="pwdForm.password" type="password" placeholder="请输入新密码" />
+        </el-form-item>
+        <el-form-item label="确认密码" prop="passwordConfirm">
+          <el-input v-model="pwdForm.passwordConfirm" type="password" placeholder="请再次输入新密码" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button size="small" type="primary" @click="pwdSubmitForm">确定</el-button>
+        <el-button size="small" @click="pwdCancel">取消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
-import { userListAPI, userCreateAPI, userUpdateAPI, userGetAPI, userDeleteAPI } from '@/api/system/user'
+import { userResetPasswordAPI, userListAPI, userCreateAPI, userUpdateAPI, userGetAPI, userDeleteAPI } from '@/api/system/user'
 import { deptListAPI } from '@/api/system/dept'
 import { roleListAPI } from '@/api/system/role'
 export default {
   name: 'User',
   components: { Pagination },
   data() {
+    const validatePassword = (rule, value, callback) => {
+      if (this.pwdForm.password !== this.pwdForm.passwordConfirm) {
+        callback(new Error('两次输入密码不一致'))
+      } else {
+        callback()
+      }
+    }
     return {
       // 非单个禁用
       single: true,
@@ -165,18 +193,34 @@ export default {
       // 表单校验
       rules: {
         username: [
-          { required: true, message: '账号名称不能为空', trigger: 'blur' }
+          { required: true, message: '账号名称不能为空', trigger: 'blur' },
+          { min: 5, max: 30, message: '长度在 5 到 30 个字符', trigger: 'blur' }
         ],
         category: [
           { required: true, message: '账号类型不能为空', trigger: 'blur' }
         ],
         nickname: [
-          { required: true, message: '昵称不能为空', trigger: 'blur' }
+          { required: true, message: '昵称不能为空', trigger: 'blur' },
+          { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' }
+
         ],
         deptId: [
           { required: true, message: '部门为必选项', trigger: 'blur' }
         ]
 
+      },
+      pwdOpen: false,
+      pwdForm: {},
+      pwdRules: {
+        password: [
+          { required: true, message: '新密码不能为空', trigger: 'blur' },
+          { min: 6, max: 30, message: '长度在 6 到 30 个字符', trigger: 'blur' }
+        ],
+        passwordConfirm: [
+          { required: true, message: '确认密码不能为空', trigger: 'blur' },
+          { min: 6, max: 30, message: '长度在 6 到 30 个字符', trigger: 'blur' },
+          { trigger: 'blur', validator: validatePassword }
+        ]
       }
     }
   },
@@ -186,6 +230,30 @@ export default {
     this.getRoleOptions()
   },
   methods: {
+    // 重置密码
+    handleResetPwd(row) {
+      this.pwdForm = {
+        userId: row.userId,
+        password: undefined,
+        passwordConfirm: undefined
+      }
+      this.pwdOpen = true
+    },
+    // 重置密码提交
+    pwdSubmitForm() {
+      this.$refs['pwdForm'].validate(valid => {
+        if (valid) {
+          userResetPasswordAPI(this.pwdForm).then(resp => {
+            this.$message.success(resp.msg)
+            this.pwdOpen = false
+          })
+        }
+      })
+    },
+    // 取消重置密码
+    pwdCancel() {
+      this.pwdOpen = false
+    },
     // 账号类型解析
     parseCategory(categoryId) {
       for (let i = 0; i < this.categoryOptions.length; i++) {
@@ -264,7 +332,9 @@ export default {
             })
           } else {
             userCreateAPI(this.form).then(response => {
-              this.$message.success('新增成功')
+              this.$alert(response.msg, {
+                confirmButtonText: '确定'
+              })
               this.open = false
               this.getList()
             })

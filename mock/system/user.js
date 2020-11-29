@@ -21,6 +21,17 @@ module.exports = [
       }
     }
   },
+  // reset password
+  {
+    url: '/system/user/resetPassword',
+    type: 'put',
+    response: config => {
+      return {
+        code: 20000,
+        msg: 'success'
+      }
+    }
+  },
   // delete
   {
     url: '/system/user/\\d',

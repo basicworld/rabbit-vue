@@ -53,3 +53,14 @@ export function userUpdateAPI(data) {
     data
   })
 }
+/**
+ * 重置密码
+ * @param
+ */
+export function userResetPasswordAPI(data) {
+  return request({
+    url: '/system/user/resetPassword',
+    method: 'put',
+    data
+  })
+}
