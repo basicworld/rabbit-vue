@@ -49,12 +49,27 @@ export const constantRoutes = [
     redirect: '/dashboard',
     children: [{
       path: 'dashboard',
-      name: 'Dashboard',
+      name: '首页',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      meta: { title: '首页', icon: 'dashboard' }
     }]
   },
 
+  {
+    path: 'external-link',
+    component: Layout,
+    children: [
+      {
+        path: 'https://github.com/',
+        meta: { title: 'GitHub', icon: 'link' }
+      }
+    ]
+  }
+  // 404 page must be placed at the end !!!
+  //  { path: '*', redirect: '/404', hidden: true }
+]
+
+export const asyncRoutes = [
   {
     path: '/system',
     component: Layout,
@@ -62,7 +77,7 @@ export const constantRoutes = [
     name: '系统管理',
     meta: {
       title: '系统管理',
-      icon: 'nested'
+      icon: 'tree'
     },
     children: [
       {
@@ -85,20 +100,8 @@ export const constantRoutes = [
       }
     ]
   },
+  { path: '*', redirect: '/dashboard', hidden: true }
 
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
-      }
-    ]
-  },
-
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
 ]
 
 const createRouter = () => new Router({

@@ -26,23 +26,51 @@ router.beforeEach(async(to, from, next) => {
       next({ path: '/' })
       NProgress.done()
     } else {
-      const hasGetUserInfo = store.getters.name
-      if (hasGetUserInfo) {
+      // wlfei add start
+      // 根据角色实现动态路由，动态路由不生效的解决：
+      // https://github.com/PanJiaChen/vue-element-admin/issues/2370
+      // 修改layout/components/Sidebar/index.vue ，遍历路由生成菜单的时候不要使用siderbar，要使用permission_routes。 如果没看懂的话，可以vue-element-admin模板中的该文件，对比一下，就明白了。
+      const hasRoles = store.getters.roles && store.getters.roles.length > 0
+      if (hasRoles) {
         next()
       } else {
         try {
-          // get user info
-          await store.dispatch('user/getInfo')
-
-          next()
+          console.log('start try')
+          const { roles } = await store.dispatch('user/getInfo')
+          console.log('roles', roles)
+          const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
+          router.addRoutes(accessRoutes)
+          console.log('router', router)
+          next({ ...to, replace: true })
         } catch (error) {
-          // remove token and go to login page to re-login
+          console.log('error', error)
           await store.dispatch('user/resetToken')
           Message.error(error || 'Has Error')
           next(`/login?redirect=${to.path}`)
           NProgress.done()
         }
       }
+
+      // wlfei add end
+
+      // // commented by wlfei
+      // const hasGetUserInfo = store.getters.name
+      // if (hasGetUserInfo) {
+      //   next()
+      // } else {
+      //   try {
+      //     // get user info
+      //     await store.dispatch('user/getInfo')
+
+      //     next()
+      //   } catch (error) {
+      //     // remove token and go to login page to re-login
+      //     await store.dispatch('user/resetToken')
+      //     Message.error(error || 'Has Error')
+      //     next(`/login?redirect=${to.path}`)
+      //     NProgress.done()
+      //   }
+      // }
     }
   } else {
     /* has no token*/
