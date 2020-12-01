@@ -53,17 +53,6 @@ export const constantRoutes = [
       component: () => import('@/views/dashboard/index'),
       meta: { title: '首页', icon: 'dashboard' }
     }]
-  },
-
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://github.com/',
-        meta: { title: 'GitHub', icon: 'link' }
-      }
-    ]
   }
   // 404 page must be placed at the end !!!
   //  { path: '*', redirect: '/404', hidden: true }
@@ -73,7 +62,8 @@ export const asyncRoutes = [
   {
     path: '/system',
     component: Layout,
-    redirect: '/system/role',
+    redirect: 'noRedirect',
+    // redirect: '/system/role',
     name: '系统管理',
     meta: {
       title: '系统管理',
@@ -100,7 +90,8 @@ export const asyncRoutes = [
       }
     ]
   },
-  { path: '*', redirect: '/dashboard', hidden: true }
+  // 404 page must be placed at the end !!!
+  { path: '*', redirect: '/404', hidden: true }
 
 ]
 

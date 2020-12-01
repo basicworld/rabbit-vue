@@ -35,15 +35,11 @@ router.beforeEach(async(to, from, next) => {
         next()
       } else {
         try {
-          console.log('start try')
           const { roles } = await store.dispatch('user/getInfo')
-          console.log('roles', roles)
           const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
           router.addRoutes(accessRoutes)
-          console.log('router', router)
           next({ ...to, replace: true })
         } catch (error) {
-          console.log('error', error)
           await store.dispatch('user/resetToken')
           Message.error(error || 'Has Error')
           next(`/login?redirect=${to.path}`)
@@ -52,25 +48,6 @@ router.beforeEach(async(to, from, next) => {
       }
 
       // wlfei add end
-
-      // // commented by wlfei
-      // const hasGetUserInfo = store.getters.name
-      // if (hasGetUserInfo) {
-      //   next()
-      // } else {
-      //   try {
-      //     // get user info
-      //     await store.dispatch('user/getInfo')
-
-      //     next()
-      //   } catch (error) {
-      //     // remove token and go to login page to re-login
-      //     await store.dispatch('user/resetToken')
-      //     Message.error(error || 'Has Error')
-      //     next(`/login?redirect=${to.path}`)
-      //     NProgress.done()
-      //   }
-      // }
     }
   } else {
     /* has no token*/

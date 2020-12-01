@@ -6,6 +6,7 @@ const table = require('./table')
 const role = require('./system/role')
 const menu = require('./system/menu')
 const dept = require('./system/dept')
+const router = require('./router')
 const sysUser = require('./system/user')
 
 const mocks = [
@@ -14,6 +15,7 @@ const mocks = [
   ...role,
   ...menu,
   ...dept,
+  ...router,
   ...sysUser
 ]
 

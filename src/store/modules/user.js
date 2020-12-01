@@ -39,7 +39,6 @@ const actions = {
       login({ username: username.trim(), password: password }).then(response => {
         const { data } = response // token
         commit('SET_TOKEN', data)
-        console.log('token', data)
         setToken(data)
         resolve()
       }).catch(error => {
@@ -50,14 +49,10 @@ const actions = {
 
   // get user info
   getInfo({ commit, state }) {
-    console.log('getInfo', { commit, state })
-    console.log('state.token', state.token)
     return new Promise((resolve, reject) => {
       getInfo(state.token).then(response => {
         const { data } = response
-        console.log('data', data)
         if (!data) {
-          console.log('no data')
           return reject('Verification failed, please Login again.')
         }
 
@@ -88,7 +83,6 @@ const actions = {
         commit('RESET_STATE')
         resolve()
       }).catch(error => {
-        console.log('退出异常')
         reject(error)
       })
     })
