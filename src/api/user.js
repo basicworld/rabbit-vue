@@ -8,6 +8,14 @@ export function login(data) {
   })
 }
 
+// 获取验证码
+export function captchaGetAPI() {
+  return request({
+    url: '/captcha',
+    method: 'get'
+  })
+}
+
 export function getInfo(token) {
   return request({
     url: '/vue-admin-template/user/info',

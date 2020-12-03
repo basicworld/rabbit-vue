@@ -66,6 +66,13 @@ module.exports = {
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''
         }
+      },
+      '/dev-api/captcha': {
+        target: `http://localhost:9000/`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_BASE_API]: ''
+        }
       }
     },
     after: require('./mock/mock-server.js')

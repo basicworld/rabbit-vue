@@ -1,34 +1,42 @@
 <template>
   <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
+    <img
+      src="../../assets/images/computer.png"
+      alt="加载失败"
+      style="width:36%;height:36%;position:absolute;top:26%;left:12%;"
+    >
+    <el-form
+      ref="loginForm"
+      :model="loginForm"
+      :rules="loginRules"
+      class="login-form"
+      auto-complete="on"
+      label-position="left"
+    >
 
       <div class="title-container">
         <h3 class="title">用户登录</h3>
       </div>
 
       <el-form-item prop="username">
-        <span class="svg-container">
-          <svg-icon icon-class="user" />
-        </span>
         <el-input
           ref="username"
           v-model="loginForm.username"
           placeholder="用户名"
+          prefix-icon="el-icon-user"
           name="username"
           type="text"
           tabindex="1"
-          auto-complete="on"
+          auto-complete="off"
         />
       </el-form-item>
 
       <el-form-item prop="password">
-        <span class="svg-container">
-          <svg-icon icon-class="password" />
-        </span>
         <el-input
           :key="passwordType"
           ref="password"
           v-model="loginForm.password"
+          prefix-icon="el-icon-lock"
           :type="passwordType"
           placeholder="密码"
           name="password"
@@ -40,6 +48,27 @@
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
+      <el-form-item prop="captcha">
+        <el-input
+          ref="captcha"
+          v-model="loginForm.captcha"
+          placeholder="图片验证码"
+          name="captcha"
+          type="text"
+          auto-complete="off"
+          class="img-container"
+        >
+          <div slot="append" style="width: 140px; height: 40px;">
+            <img
+              :src="captchaUrl"
+              title="点击替换"
+              alt="验证码"
+              style="cursor: pointer; width:140px; height: 40px;"
+              @click="reloadCaptcha"
+            >
+          </div>
+        </el-input>
+      </el-form-item>
 
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
 
@@ -47,7 +76,6 @@
         <span style="margin-right:20px;">
           <a :href="'#/register'">注册</a>
         </span>
-        <span> password: any</span>
       </div>
 
     </el-form>
@@ -56,6 +84,7 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
+import { captchaGetAPI } from '@/api/user'
 
 export default {
   name: 'Login',
@@ -75,13 +104,17 @@ export default {
       }
     }
     return {
+      // 图片验证码地址
+      captchaUrl: undefined,
       loginForm: {
         username: 'admin',
-        password: '111111'
+        password: '111111',
+        captcha: undefined
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        password: [{ required: true, trigger: 'blur', validator: validatePassword }],
+        captcha: [{ required: true, trigger: 'blur', message: '图片验证码不能为空' }]
       },
       loading: false,
       passwordType: 'password',
@@ -96,7 +129,16 @@ export default {
       immediate: true
     }
   },
+  created() {
+    this.reloadCaptcha()
+  },
   methods: {
+    reloadCaptcha() {
+      captchaGetAPI().then(res => {
+        this.captchaUrl = 'data:image/gif;base64,' + res.data.base64
+        this.loginForm.uuid = res.data.uuid
+      })
+    },
     showPwd() {
       if (this.passwordType === 'password') {
         this.passwordType = ''
@@ -126,54 +168,14 @@ export default {
   }
 }
 </script>
-
 <style lang="scss">
-/* 修复input 背景不协调 和光标变色 */
-/* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
-
-$bg:#283443;
-$light_gray:#fff;
-$cursor: #fff;
-
-@supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
-  .login-container .el-input input {
-    color: $cursor;
-  }
-}
-
-/* reset element-ui css */
-.login-container {
-  .el-input {
-    display: inline-block;
-    height: 47px;
-    width: 85%;
-
-    input {
-      background: transparent;
-      border: 0px;
-      -webkit-appearance: none;
-      border-radius: 0px;
-      padding: 12px 5px 12px 15px;
-      color: $light_gray;
-      height: 47px;
-      caret-color: $cursor;
-
-      &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color: $cursor !important;
-      }
+ .img-container{
+    .el-input-group__append{
+      padding: 0;
+      border: 0;
     }
   }
-
-  .el-form-item {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    color: #454545;
-  }
-}
 </style>
-
 <style lang="scss" scoped>
 $bg:#2d3a4b;
 $dark_gray:#889aa4;
@@ -182,21 +184,31 @@ $light_gray:#eee;
 .login-container {
   min-height: 100%;
   width: 100%;
-  background-color: $bg;
+  background-image: url(../../assets/images/bg.jpg);
+  background-size: 100%;
+  background-position-x: center;
   overflow: hidden;
+  height:100%;
+  background-size:cover;
+
+  .el-input {
+    // display: inline-block;
+  }
 
   .login-form {
+    background-color: #fff;
     position: relative;
-    width: 520px;
+    width: 400px;
     max-width: 100%;
-    padding: 160px 35px 0;
-    margin: 0 auto;
+    padding: 40px 35px 30px;
+    margin: 100px 60% 0;
     overflow: hidden;
+    border-radius: 1%;
   }
 
   .tips {
     font-size: 14px;
-    color: #fff;
+    color: #454545;
     margin-bottom: 10px;
 
     span {
@@ -219,7 +231,7 @@ $light_gray:#eee;
 
     .title {
       font-size: 26px;
-      color: $light_gray;
+      color: #454545;
       margin: 0px auto 40px auto;
       text-align: center;
       font-weight: bold;
@@ -229,7 +241,7 @@ $light_gray:#eee;
   .show-pwd {
     position: absolute;
     right: 10px;
-    top: 7px;
+    top: 0px;
     font-size: 16px;
     color: $dark_gray;
     cursor: pointer;
