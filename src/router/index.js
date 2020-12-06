@@ -59,6 +59,19 @@ export const constantRoutes = [
       component: () => import('@/views/dashboard/index'),
       meta: { title: '首页', icon: 'dashboard' }
     }]
+  },
+  {
+    path: '/my-setting',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: 'index',
+        name: '个人设置',
+        component: () => import('@/views/my-setting/index'),
+        meta: { title: '个人设置', icon: 'form' }
+      }
+    ]
   }
   // 404 page must be placed at the end !!!
   //  { path: '*', redirect: '/404', hidden: true }

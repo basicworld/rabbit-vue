@@ -60,6 +60,13 @@ module.exports = {
           ['^' + process.env.VUE_APP_BASE_API]: ''
         }
       },
+      '/dev-api/system/menu': {
+        target: `http://localhost:9000/`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_BASE_API]: ''
+        }
+      },
       '/dev-api/getRouters': {
         target: `http://localhost:9000/`,
         changeOrigin: true,
@@ -73,7 +80,29 @@ module.exports = {
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''
         }
+      },
+      '/dev-api/personal/login': {
+        target: `http://localhost:9000/`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_BASE_API]: ''
+        }
+      },
+      '/dev-api/personal/info': {
+        target: `http://localhost:9000/`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_BASE_API]: ''
+        }
+      },
+      '/dev-api/personal/password': {
+        target: `http://localhost:9000/`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_BASE_API]: ''
+        }
       }
+
     },
     after: require('./mock/mock-server.js')
     // before: require('./mock/mock-server.js')

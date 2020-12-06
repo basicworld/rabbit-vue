@@ -1,4 +1,4 @@
-import { login, logout, getInfo } from '@/api/user'
+import { login, logout, getInfo } from '@/api/personal'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -34,9 +34,9 @@ const mutations = {
 const actions = {
   // user login
   login({ commit }, userInfo) {
-    const { username, password } = userInfo
+    const { username, password, code, uuid } = userInfo
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
+      login({ username: username.trim(), password: password, code: code.trim(), uuid: uuid }).then(response => {
         const { data } = response // token
         commit('SET_TOKEN', data)
         setToken(data)
@@ -57,15 +57,17 @@ const actions = {
         }
 
         // const { name, avatar } = data
-        const { roles, name, avatar } = data
+        const { roles, nickname, avatar } = data
 
+        // wlfei: 前端不再需要role
         // roles must be a non-empty array
+        // roles 为空会导致异常
         if (!roles || roles.length <= 0) {
           reject('getInfo: roles must be a non-null array!')
         }
 
         commit('SET_ROLES', roles)
-        commit('SET_NAME', name)
+        commit('SET_NAME', nickname)
         commit('SET_AVATAR', avatar)
         resolve(data)
       }).catch(error => {
@@ -85,6 +87,14 @@ const actions = {
       }).catch(error => {
         reject(error)
       })
+    })
+  },
+  // 前端 登出
+  fedLogOut({ commit }) {
+    return new Promise(resolve => {
+      commit('SET_TOKEN', '')
+      removeToken()
+      resolve()
     })
   },
 

@@ -96,12 +96,6 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="手机号" prop="phone">
-          <el-input v-model="form.phone" placeholder="请输入手机号（全局唯一）" />
-        </el-form-item>
-        <el-form-item label="邮箱" prop="email">
-          <el-input v-model="form.email" placeholder="请输入邮箱（全局唯一）" />
-        </el-form-item>
         <el-form-item label="角色" prop="roleIds">
           <el-select v-model="form.roleIds" filterable multiple placeholder="请选择角色（可多选）" style="width: 100%;">
             <el-option
@@ -113,6 +107,13 @@
             />
           </el-select>
         </el-form-item>
+        <el-form-item label="手机号" prop="phone">
+          <el-input v-model="form.phone" placeholder="请输入手机号（全局唯一）" />
+        </el-form-item>
+        <el-form-item label="邮箱" prop="email">
+          <el-input v-model="form.email" placeholder="请输入邮箱（全局唯一）" />
+        </el-form-item>
+
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button size="small" type="primary" @click="submitForm">确定</el-button>
@@ -206,6 +207,9 @@ export default {
         ],
         deptId: [
           { required: true, message: '部门为必选项', trigger: 'blur' }
+        ],
+        roleIds: [
+          { required: true, message: '角色为必选项', trigger: 'blur' }
         ]
 
       },

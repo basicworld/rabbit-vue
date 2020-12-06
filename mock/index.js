@@ -1,7 +1,7 @@
 const Mock = require('mockjs')
 const { param2Obj } = require('./utils')
 
-const user = require('./user')
+const personal = require('./personal')
 const table = require('./table')
 const role = require('./system/role')
 const menu = require('./system/menu')
@@ -10,7 +10,7 @@ const router = require('./router')
 const sysUser = require('./system/user')
 
 const mocks = [
-  ...user,
+  ...personal,
   ...table,
   ...role,
   ...menu,

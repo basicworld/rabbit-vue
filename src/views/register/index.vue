@@ -124,7 +124,7 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
-import { captchaGetAPI } from '@/api/user'
+import { captchaGetAPI } from '@/api/personal'
 export default {
   name: 'Regist',
   data() {

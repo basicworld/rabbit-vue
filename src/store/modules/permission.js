@@ -1,6 +1,8 @@
 import { constantRoutes } from '@/router'
 import { getRoutersAPI } from '@/api/menu'
 import Layout from '@/layout/index'
+import { removeToken } from '@/utils/auth'
+import { resetRouter } from '@/router'
 
 const state = {
   routes: [],
@@ -50,14 +52,24 @@ export function filterAsyncRouter(routes) {
 
 const actions = {
   generateRoutes({ commit }, roles) {
+    console.log('start get router')
     return new Promise(resolve => {
       // wlfei add start
+      console.log('getRoutersAPI...')
       getRoutersAPI().then(res => {
         const accessedRoutes = filterAsyncRouter(res.data)
         accessedRoutes.push({ path: '*', redirect: '/404', hidden: true })
         commit('SET_ROUTES', accessedRoutes)
         resolve(accessedRoutes)
+      }).catch(e => {
+        console.log('catch error', e)
+        removeToken() // must remove  token  first
+        resetRouter()
+        // commit('RESET_STATE')
+        resolve()
       })
+      console.log('getRoutersAPI...down')
+
       // wlfei add end
     })
   }

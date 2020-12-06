@@ -5,6 +5,7 @@
     <breadcrumb class="breadcrumb-container" />
 
     <div class="right-menu">
+
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <img :src="require('@/assets/images/color-people.png')" class="user-avatar">
@@ -14,6 +15,11 @@
           <router-link to="/">
             <el-dropdown-item>
               首页
+            </el-dropdown-item>
+          </router-link>
+          <router-link to="/my-setting/index">
+            <el-dropdown-item>
+              个人设置
             </el-dropdown-item>
           </router-link>
           <a target="_blank" href="https://github.com/">
@@ -41,7 +47,8 @@ export default {
   computed: {
     ...mapGetters([
       'sidebar',
-      'avatar'
+      'avatar',
+      'name'
     ])
   },
   methods: {
@@ -110,6 +117,7 @@ export default {
 
     .avatar-container {
       margin-right: 30px;
+      text-align: center;
 
       .avatar-wrapper {
         margin-top: 5px;

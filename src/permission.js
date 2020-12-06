@@ -10,6 +10,7 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
 const whiteList = ['/login', '/register'] // no redirect whitelist
 
+// 每次跳转路由时都会执行下面动作
 router.beforeEach(async(to, from, next) => {
   // start progress bar
   NProgress.start()
@@ -27,7 +28,6 @@ router.beforeEach(async(to, from, next) => {
       NProgress.done()
     } else {
       // wlfei add start
-      // 根据角色实现动态路由，动态路由不生效的解决：
       // https://github.com/PanJiaChen/vue-element-admin/issues/2370
       // 修改layout/components/Sidebar/index.vue ，遍历路由生成菜单的时候不要使用siderbar，要使用permission_routes。 如果没看懂的话，可以vue-element-admin模板中的该文件，对比一下，就明白了。
       const hasRoles = store.getters.roles && store.getters.roles.length > 0
@@ -36,6 +36,7 @@ router.beforeEach(async(to, from, next) => {
       } else {
         try {
           const { roles } = await store.dispatch('user/getInfo')
+          // 服务器请求动态路由信息
           const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
           router.addRoutes(accessRoutes)
           next({ ...to, replace: true })

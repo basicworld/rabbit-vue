@@ -48,12 +48,12 @@
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
-      <el-form-item prop="captcha">
+      <el-form-item prop="code">
         <el-input
-          ref="captcha"
-          v-model="loginForm.captcha"
+          ref="code"
+          v-model="loginForm.code"
           placeholder="图片验证码"
-          name="captcha"
+          name="code"
           type="text"
           auto-complete="off"
           class="img-container"
@@ -84,7 +84,8 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
-import { captchaGetAPI } from '@/api/user'
+import { captchaGetAPI } from '@/api/personal'
+import { encrypt } from '@/utils/jsencrypt'
 
 export default {
   name: 'Login',
@@ -108,13 +109,14 @@ export default {
       captchaUrl: undefined,
       loginForm: {
         username: 'admin',
-        password: '111111',
-        captcha: undefined
+        password: 'Abcd1234',
+        code: undefined,
+        uuid: undefined // 验证码唯一ID
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }],
-        captcha: [{ required: true, trigger: 'blur', message: '图片验证码不能为空' }]
+        code: [{ required: true, trigger: 'blur', message: '图片验证码不能为空' }]
       },
       loading: false,
       passwordType: 'password',
@@ -153,7 +155,13 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
+          var param = {
+            username: this.loginForm.username,
+            code: this.loginForm.code,
+            uuid: this.loginForm.uuid,
+            password: encrypt(this.loginForm.password)
+          }
+          this.$store.dispatch('user/login', param).then(() => {
             this.$router.push({ path: this.redirect || '/' })
             this.loading = false
           }).catch(() => {
