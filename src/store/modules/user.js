@@ -92,8 +92,8 @@ const actions = {
   // 前端 登出
   fedLogOut({ commit }) {
     return new Promise(resolve => {
-      commit('SET_TOKEN', '')
       removeToken()
+      commit('SET_TOKEN', '')
       resolve()
     })
   },

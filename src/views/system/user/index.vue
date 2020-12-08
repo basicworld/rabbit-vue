@@ -143,6 +143,8 @@ import Pagination from '@/components/Pagination' // secondary package based on e
 import { userResetPasswordAPI, userListAPI, userCreateAPI, userUpdateAPI, userGetAPI, userDeleteAPI } from '@/api/system/user'
 import { deptListAPI } from '@/api/system/dept'
 import { roleListAPI } from '@/api/system/role'
+import { encrypt } from '@/utils/jsencrypt'
+
 export default {
   name: 'User',
   components: { Pagination },
@@ -247,7 +249,11 @@ export default {
     pwdSubmitForm() {
       this.$refs['pwdForm'].validate(valid => {
         if (valid) {
-          userResetPasswordAPI(this.pwdForm).then(resp => {
+          const param = {
+            userId: this.pwdForm.userId,
+            password: encrypt(this.pwdForm.password)
+          }
+          userResetPasswordAPI(param).then(resp => {
             this.$message.success(resp.msg)
             this.pwdOpen = false
           })

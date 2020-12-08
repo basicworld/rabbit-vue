@@ -1,7 +1,7 @@
 module.exports = [
   // 菜单
   {
-    url: '/getRouters',
+    url: '/router',
     type: 'get',
     response: config => {
       return {

@@ -67,7 +67,7 @@ module.exports = {
           ['^' + process.env.VUE_APP_BASE_API]: ''
         }
       },
-      '/dev-api/getRouters': {
+      '/dev-api/router': {
         target: `http://localhost:9000/`,
         changeOrigin: true,
         pathRewrite: {
@@ -81,21 +81,7 @@ module.exports = {
           ['^' + process.env.VUE_APP_BASE_API]: ''
         }
       },
-      '/dev-api/personal/login': {
-        target: `http://localhost:9000/`,
-        changeOrigin: true,
-        pathRewrite: {
-          ['^' + process.env.VUE_APP_BASE_API]: ''
-        }
-      },
-      '/dev-api/personal/info': {
-        target: `http://localhost:9000/`,
-        changeOrigin: true,
-        pathRewrite: {
-          ['^' + process.env.VUE_APP_BASE_API]: ''
-        }
-      },
-      '/dev-api/personal/password': {
+      '/dev-api/personal': {
         target: `http://localhost:9000/`,
         changeOrigin: true,
         pathRewrite: {

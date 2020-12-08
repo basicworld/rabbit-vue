@@ -154,10 +154,13 @@ export default {
       // 表单校验
       rules: {
         name: [
-          { required: true, message: '角色名称不能为空', trigger: 'blur' }
+          { required: true, message: '角色名称不能为空', trigger: 'blur' },
+          { min: 3, max: 20, message: '角色名称长度限制为3-20字符', trigger: 'blur' }
+
         ],
         code: [
-          { required: true, message: '角色代码不能为空', trigger: 'blur' }
+          { required: true, message: '角色代码不能为空', trigger: 'blur' },
+          { min: 5, max: 20, message: '角色代码长度限制为5-20字符', trigger: 'blur' }
         ]
       }
     }

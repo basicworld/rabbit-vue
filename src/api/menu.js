@@ -5,7 +5,7 @@ import request from '@/utils/request'
  */
 export function getRoutersAPI() {
   return request({
-    url: '/getRouters',
+    url: '/router',
     method: 'get'
   })
 }
