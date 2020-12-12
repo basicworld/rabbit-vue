@@ -8,6 +8,7 @@ const menu = require('./system/menu')
 const dept = require('./system/dept')
 const router = require('./router')
 const sysUser = require('./system/user')
+const log = require('./system/log')
 
 const mocks = [
   ...personal,
@@ -16,7 +17,8 @@ const mocks = [
   ...menu,
   ...dept,
   ...router,
-  ...sysUser
+  ...sysUser,
+  ...log
 ]
 
 // for front mock
