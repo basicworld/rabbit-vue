@@ -52,6 +52,7 @@
           ref="code"
           v-model="loginForm.code"
           placeholder="图片验证码"
+          prefix-icon="el-icon-picture-outline"
           name="code"
           type="text"
           tabindex="3"
@@ -75,7 +76,7 @@
 
       <div class="tips">
         <span style="margin-right:20px;">
-          <a :href="'#/register'">注册</a>
+          忘记密码
         </span>
       </div>
 

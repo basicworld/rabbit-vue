@@ -12,21 +12,16 @@
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
-          <router-link to="/">
-            <el-dropdown-item>
-              首页
-            </el-dropdown-item>
-          </router-link>
           <router-link to="/my-setting/index">
             <el-dropdown-item>
-              个人设置
+              个人中心
             </el-dropdown-item>
           </router-link>
           <a target="_blank" href="https://github.com/">
-            <el-dropdown-item>帮助</el-dropdown-item>
+            <el-dropdown-item>帮助文档</el-dropdown-item>
           </a>
           <el-dropdown-item divided @click.native="logout">
-            <span style="display:block;">退出</span>
+            <span style="display:block;">退出登录</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>

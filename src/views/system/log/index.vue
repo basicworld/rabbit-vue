@@ -129,7 +129,7 @@
 
 <script>
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
-import { logtypeListAPI, logListAPI } from '@/api/system/log'
+import { logtypeListAPI, logListAPI, logGetAPI } from '@/api/system/log'
 export default {
   name: 'Log',
   components: { Pagination },
@@ -179,8 +179,10 @@ export default {
   methods: {
     // 查看日志详情
     showDetail(log) {
-      this.logItem = log
-      this.open = true
+      logGetAPI(log.id).then(resp => {
+        this.logItem = resp.data
+        this.open = true
+      })
     },
     // 取消按钮
     cancel() {
@@ -190,15 +192,6 @@ export default {
     /** 查询日志类型列表 */
     getLogtype() {
       logtypeListAPI().then(resp => {
-        const rawOptions = resp.data
-        const items = []
-        for (let i = 0; i < rawOptions.length; i++) {
-          const item = {
-            id: i,
-            name: rawOptions[i]
-          }
-          items.push(item)
-        }
         this.logtypeOptions = resp.data
       })
     },
