@@ -113,8 +113,8 @@
         <el-form-item label="邮箱" prop="email">
           <el-input v-model="form.email" placeholder="请输入邮箱（全局唯一）" />
         </el-form-item>
-
       </el-form>
+      <span style="color: red; padding-left: 40px;">注意：用户只继承当前所属部门的权限，不会继承更上级部门权限</span>
       <div slot="footer" class="dialog-footer">
         <el-button size="small" type="primary" @click="submitForm">确定</el-button>
         <el-button size="small" @click="cancel">取消</el-button>

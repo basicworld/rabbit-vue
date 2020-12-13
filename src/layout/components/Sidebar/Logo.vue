@@ -24,7 +24,7 @@ export default {
   },
   data() {
     return {
-      title: 'RABBIT VUE',
+      title: '快速开发框架',
       logo: 'logo.png'
     }
   }

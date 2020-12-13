@@ -54,20 +54,20 @@
     <el-table v-loading="loading" :data="tableData" @selection-change="handleSelectionChange">
       <el-table-column type="selection" align="center" width="45" />
       <el-table-column prop="id" label="编号" />
-      <el-table-column prop="operType" label="操作类型" />
       <el-table-column prop="userName" label="用户名" />
-      <el-table-column prop="isSuccess" label="结果">
+      <el-table-column prop="operType" label="操作类型" />
+      <el-table-column prop="isSuccess" label="是否成功">
         <template slot-scope="scope">
-          <i v-if="scope.row.isSuccess === true" class="el-icon-success" style="color: #67C23A;" />
-          <i v-if="scope.row.isSuccess !== true" class="el-icon-error" style="color: #F56C6C;" />
+          <el-tag v-if="scope.row.isSuccess" size="mini" effect="dark" type="success" @click="showDetail(scope.row)">{{ scope.row.isSuccess }}</el-tag>
+          <el-tag v-if="!scope.row.isSuccess" size="mini" effect="dark" type="danger" @click="showDetail(scope.row)">{{ scope.row.isSuccess }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="operTime" label="时间" min-width="100">
+      <el-table-column prop="operTime" label="操作时间" min-width="100">
         <template slot-scope="scope">
           <span>{{ renderTime(scope.row.operTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="operContent" label="动作" min-width="200" />
+      <el-table-column prop="operContent" label="操作描述" min-width="200" />
 
     </el-table>
     <pagination
@@ -77,7 +77,53 @@
       :limit.sync="queryParams.pageSize"
       @pagination="getList"
     />
-
+    <!--弹窗操作区-->
+    <!-- 查看日志详情 -->
+    <el-dialog title="日志详情" :visible.sync="open" append-to-body>
+      <table width="100%" class="table">
+        <tr>
+          <td>日志编号</td>
+          <td colspan="3">{{ logItem.id }}</td>
+        </tr>
+        <tr>
+          <td>用户名称</td>
+          <td colspan="3">
+            {{ logItem.userName }}
+            <span v-if="logItem.userId">  (ID = {{ logItem.userId }})</span>
+          </td>
+        </tr>
+        <tr>
+          <td>操作类型</td>
+          <td colspan="3">{{ logItem.operType }}</td>
+        </tr>
+        <tr>
+          <td>是否成功</td>
+          <td colspan="3">
+            <el-tag v-if="logItem.isSuccess" size="mini" effect="dark" type="success">{{ logItem.isSuccess }}</el-tag>
+            <el-tag v-if="!logItem.isSuccess" size="mini" effect="dark" type="danger">{{ logItem.isSuccess }}</el-tag>
+          </td>
+        </tr>
+        <tr>
+          <td>操作时间</td>
+          <td colspan="3">{{ renderTime(logItem.operTime) }}</td>
+        </tr>
+        <tr>
+          <td>输入参数</td>
+          <td colspan="3">
+            <span v-if="logItem.operArgs"> {{ logItem.operArgs }}</span>
+            <span v-if="!logItem.operArgs"> ******</span>
+          </td>
+        </tr>
+        <tr>
+          <td>操作描述</td>
+          <td colspan="3">{{ logItem.operContent }}</td>
+        </tr>
+        <tr>
+          <td>返回结果</td>
+          <td colspan="3">{{ logItem.returnMsg }}</td>
+        </tr>
+      </table>
+    </el-dialog>
   </div>
 </template>
 
@@ -89,6 +135,8 @@ export default {
   components: { Pagination },
   data() {
     return {
+      // 单条日志详情
+      logItem: {},
       // 非单个禁用
       single: true,
       // 非多个禁用
@@ -129,6 +177,11 @@ export default {
     this.getLogtype()
   },
   methods: {
+    // 查看日志详情
+    showDetail(log) {
+      this.logItem = log
+      this.open = true
+    },
     // 取消按钮
     cancel() {
       this.open = false
@@ -180,3 +233,43 @@ export default {
   }
 }
 </script>
+<style type="text/css" scoped>
+  table {
+      font-size: 14px;
+      line-height:1.6em;
+  }
+
+  table {
+      table-layout: fixed;
+      empty-cells: show;
+      border-collapse: collapse;
+      margin: 0 auto;
+  }
+
+  td {
+      height: 30px;
+  }
+
+  .table {
+      border: 1px solid #DCDFE6;
+      color: #666;
+  }
+
+  .table th {
+      background-repeat: repeat-x;
+      height: 30px;
+  }
+
+  .table td,
+  .table th {
+      border: 1px solid #DCDFE6;
+      padding: 0 1em 0;
+  }
+
+  .table tr.alter {
+      background-color: rgb(217,236,255);
+  }
+  .table .subtitle{
+    text-align : center;
+  }
+</style>

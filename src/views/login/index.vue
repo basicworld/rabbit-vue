@@ -42,7 +42,6 @@
           name="password"
           tabindex="2"
           auto-complete="on"
-          @keyup.enter.native="handleLogin"
         />
         <span class="show-pwd" @click="showPwd">
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
@@ -55,8 +54,10 @@
           placeholder="图片验证码"
           name="code"
           type="text"
+          tabindex="3"
           auto-complete="off"
           class="img-container"
+          @keyup.enter.native="handleLogin"
         >
           <div slot="append" style="width: 140px; height: 40px;">
             <img
