@@ -2,6 +2,8 @@
 
 > 一个实现 RBAC 功能的 VUE 前端框架
 
+后端实现见[rabbit-fast](https://github.com/basicworld/rabbit-fast)
+
 ## 功能
 
 登录退出
