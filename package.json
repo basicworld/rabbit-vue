@@ -1,8 +1,8 @@
 {
-  "name": "rabbit-template",
-  "version": "4.4.0",
-  "description": "A vue template with Element UI & axios & iconfont & permission control & lint",
-  "author": "Pan <panfree23@gmail.com>",
+  "name": "rabbit-vue",
+  "version": "1.0.0",
+  "description": "一个实现RABC的VUE开发框架",
+  "author": "wlfei <basicworld@163.com>",
   "scripts": {
     "dev": "vue-cli-service serve",
     "build:prod": "vue-cli-service build",

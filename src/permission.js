@@ -28,7 +28,6 @@ router.beforeEach(async(to, from, next) => {
       NProgress.done()
     } else {
       // wlfei add start
-      // https://github.com/PanJiaChen/vue-element-admin/issues/2370
       // 修改layout/components/Sidebar/index.vue ，遍历路由生成菜单的时候不要使用siderbar，要使用permission_routes。 如果没看懂的话，可以vue-element-admin模板中的该文件，对比一下，就明白了。
       const hasRoles = store.getters.roles && store.getters.roles.length > 0
       if (hasRoles) {

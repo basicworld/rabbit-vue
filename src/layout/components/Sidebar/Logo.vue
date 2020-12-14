@@ -24,7 +24,7 @@ export default {
   },
   data() {
     return {
-      title: '快速开发框架',
+      title: 'RABBIT后台管理系统',
       logo: 'logo.png'
     }
   }
