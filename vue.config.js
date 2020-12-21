@@ -74,6 +74,13 @@ module.exports = {
           ['^' + process.env.VUE_APP_BASE_API]: ''
         }
       },
+      '/dev-api/system/config': {
+        target: `http://localhost:9000/`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_BASE_API]: ''
+        }
+      },
       '/dev-api/router': {
         target: `http://localhost:9000/`,
         changeOrigin: true,
