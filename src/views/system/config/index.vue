@@ -16,19 +16,25 @@
         :key="conf.id"
         :label="conf.cname"
       >
-        <el-input v-if="conf.ckey.indexOf('password') < 0" v-model="form[conf.ckey]" />
-        <el-input v-if="conf.ckey.indexOf('password') >= 0" v-model="form[conf.ckey]" type="password" />
+        <el-input v-if="conf.ctype === 'string' || conf.ctype === 'number'" v-model="form[conf.ckey]" />
+        <el-input v-if="conf.ctype === 'password'" v-model="form[conf.ckey]" type="password" />
+        <el-switch
+          v-if="conf.ctype === 'boolean'"
+          v-model="form[conf.ckey]"
+          active-value="true"
+          inactive-value="false"
+        />
       </el-form-item>
-      <el-form-item style="color: #F56C6C;">
-        <span>修改参数默认在下次系统启动时生效</span><br>
-        <span />
-      </el-form-item>
+
       <el-form-item>
         <el-button type="primary" icon="el-icon-check" size="mini" @click="submitForm">保存</el-button>
         <el-button icon="el-icon-close" size="mini" @click="cacel">取消修改</el-button>
         <el-tooltip class="item" effect="dark" content="点击以使保存参数立即生效" placement="right">
           <el-button type="danger" icon="el-icon-refresh" size="mini" @click="reCacheConfig">刷新缓存</el-button>
         </el-tooltip>
+      </el-form-item>
+      <el-form-item style="color: #F56C6C;">
+        <span>已【保存】参数默认在下次系统启动时生效，或点击【刷新缓存】立即生效</span>
       </el-form-item>
       <el-form-item prop="emailTo">
         <el-input
@@ -122,8 +128,8 @@ export default {
           const updateItemList = []
           Object.keys(diffForm).forEach(ckey => {
             const item = {
-              ckey: ckey,
-              cvalue: diffForm[ckey]
+              ckey: ckey.trim(),
+              cvalue: diffForm[ckey].trim()
             }
             updateItemList.push(item)
           })
