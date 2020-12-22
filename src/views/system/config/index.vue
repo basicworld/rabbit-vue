@@ -25,7 +25,9 @@
           inactive-value="false"
         />
       </el-form-item>
-
+      <el-form-item style="color: #F56C6C;">
+        <span>注：已【保存】参数默认在下次系统启动时生效，或点击【刷新缓存】立即生效</span>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-check" size="mini" @click="submitForm">保存</el-button>
         <el-button icon="el-icon-close" size="mini" @click="cacel">取消修改</el-button>
@@ -33,9 +35,7 @@
           <el-button type="danger" icon="el-icon-refresh" size="mini" @click="reCacheConfig">刷新缓存</el-button>
         </el-tooltip>
       </el-form-item>
-      <el-form-item style="color: #F56C6C;">
-        <span>已【保存】参数默认在下次系统启动时生效，或点击【刷新缓存】立即生效</span>
-      </el-form-item>
+
       <el-form-item prop="emailTo">
         <el-input
           v-model="emailTo"

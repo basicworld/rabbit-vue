@@ -334,6 +334,12 @@ export default {
     submitForm() {
       this.$refs['form'].validate(valid => {
         if (valid) {
+          if (this.form.email === '') {
+            this.form.email = undefined
+          }
+          if (this.form.phone === '') {
+            this.form.phone = undefined
+          }
           if (this.form.userId !== undefined) {
             userUpdateAPI(this.form).then(response => {
               this.$message.success('修改成功')
