@@ -42,7 +42,7 @@ export default {
       }
     },
     handleFilePreview(file) {
-      console.log(file)
+      // console.log(file)
       fileDownloadFunc(file.id, file.fileName)
     },
     // 超出文件数限制的提示
