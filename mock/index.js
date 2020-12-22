@@ -11,6 +11,8 @@ const sysUser = require('./system/user')
 const log = require('./system/log')
 const config = require('./system/config')
 
+const demoFile = require('./demo/file')
+
 const mocks = [
   ...personal,
   ...table,
@@ -20,7 +22,8 @@ const mocks = [
   ...router,
   ...sysUser,
   ...log,
-  ...config
+  ...config,
+  ...demoFile
 ]
 
 // for front mock
