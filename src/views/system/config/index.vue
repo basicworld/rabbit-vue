@@ -17,7 +17,11 @@
         :label="conf.cname"
       >
         <el-input v-if="conf.ctype === 'string' || conf.ctype === 'number'" v-model="form[conf.ckey]" />
-        <el-input v-if="conf.ctype === 'password'" v-model="form[conf.ckey]" type="password" />
+        <el-input v-if="conf.ctype === 'password'" v-model="form[conf.ckey]" :type="passwordType">
+          <span slot="append" class="show-pwd" @click="showPwd">
+            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+          </span>
+        </el-input>
         <el-switch
           v-if="conf.ctype === 'boolean'"
           v-model="form[conf.ckey]"
@@ -26,7 +30,7 @@
         />
       </el-form-item>
       <el-form-item style="color: #F56C6C;">
-        <span>注：已【保存】参数默认在下次系统启动时生效，或点击【刷新缓存】立即生效</span>
+        <span>已【保存】参数默认在下次系统启动时生效，或点击【刷新缓存】立即生效</span>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-check" size="mini" @click="submitForm">保存</el-button>
@@ -61,6 +65,8 @@ export default {
   name: 'Config',
   data() {
     return {
+      // 密码类型
+      passwordType: 'password',
       // 遮罩层
       loading: true,
       // 表格数据
@@ -84,6 +90,13 @@ export default {
     })
   },
   methods: {
+    showPwd() {
+      if (this.passwordType === 'password') {
+        this.passwordType = ''
+      } else {
+        this.passwordType = 'password'
+      }
+    },
     sendEmail() {
       if (undefined === this.emailTo || this.emailTo.trim() === '') {
         return

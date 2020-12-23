@@ -22,6 +22,7 @@
 <script>
 import { userPasswordUpdateApi } from '@/api/personal'
 import { encrypt } from '@/utils/jsencrypt'
+import { areYouOk } from '@/api/router'
 
 export default {
   data() {
@@ -72,6 +73,9 @@ export default {
         ]
       }
     }
+  },
+  created() {
+    areYouOk()
   },
   methods: {
     onSubmit() {

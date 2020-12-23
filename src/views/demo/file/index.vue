@@ -33,7 +33,7 @@ export default {
     areYouOk()
   },
   methods: {
-    // 执行删除
+    // 执行文件删除
     handleFileRemove(file, fileList) {
       const id = file.id
       const i = this.fileList.findIndex(item => item.id === id)
@@ -46,8 +46,9 @@ export default {
         })
       }
     },
+    // 执行文件预览
     handleFilePreview(file) {
-      // console.log(file)
+      // 下载文件
       fileDownloadFunc(file.id, file.fileName)
     },
     // 超出文件数限制的提示
@@ -84,7 +85,7 @@ export default {
           uid: file.uid,
           status: file.status
         }
-        // 必须执行，否则无法把自定义参数传入upload组件的fileList
+        // 必须执行，否则无法把自定义参数传入el-upload组件的fileList
         this.fileList.push(item)
       })
     }

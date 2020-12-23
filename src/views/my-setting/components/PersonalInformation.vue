@@ -23,6 +23,8 @@
 <script>
 import { validCellphone } from '@/utils/validate'
 import { userInfoUpdateAPI, getInfo } from '@/api/personal'
+import { areYouOk } from '@/api/router'
+
 export default {
 
   data() {
@@ -59,10 +61,11 @@ export default {
       }
     }
   },
-  mounted() {
-    this.doGetUserInfo()
+  created() {
+    areYouOk().then(() => {
+      this.doGetUserInfo()
+    })
   },
-
   methods: {
     // 获取用户基本信息
     doGetUserInfo() {
