@@ -18,11 +18,11 @@
       <el-col :span="16" :xs="24">
         <el-card>
           <div slot="header" class="clearfix">
-            <span>修改信息</span>
+            <span>个人设置</span>
           </div>
           <el-tabs v-model="activeTab">
             <!-- 基本信息设置 -->
-            <el-tab-pane label="基本信息" name="userInfo">
+            <el-tab-pane label="修改基本信息" name="userInfo">
               <el-form ref="infoForm" :rules="infoRules" :model="infoForm" label-width="100px" size="small">
 
                 <el-form-item label="昵称" prop="nickname">
@@ -33,6 +33,9 @@
                 </el-form-item>
                 <el-form-item label="邮箱" prop="email">
                   <el-input v-model="infoForm.email" placeholder="请输入邮箱" />
+                </el-form-item>
+                <el-form-item label=" ">
+                  <span style="color: #F56C6C;">手机、邮箱可作为登录账号使用</span>
                 </el-form-item>
 
                 <el-form-item>
@@ -75,6 +78,7 @@ import { areYouOk } from '@/api/router'
 import { userInfoUpdateAPI, getInfo } from '@/api/personal'
 import { userPasswordUpdateApi } from '@/api/personal'
 import { encrypt } from '@/utils/jsencrypt'
+import { diffObjectFunc } from '@/utils/object-util'
 
 export default {
   data() {
@@ -147,6 +151,8 @@ export default {
         phone: undefined,
         email: undefined
       },
+      // 个人信息表单备份
+      constInfoForm: {},
       // 个人信息校验规则
       infoRules: {
 
@@ -178,6 +184,7 @@ export default {
           phone: res.data.phone,
           email: res.data.email
         }
+        this.constInfoForm = Object.assign({}, this.infoForm)
       })
     },
     onPwdSubmit() {
@@ -205,13 +212,19 @@ export default {
     onInfoSubmit() {
       this.$refs.infoForm.validate(valid => {
         if (valid) {
+          // 找到修改后的配置
+          const diffForm = diffObjectFunc(this.constInfoForm, this.infoForm)
+          if (undefined === diffForm) {
+            this.$message.info('未修改任何信息，无需保存')
+            return
+          }
           const param = {
             nickname: this.isNotBlank(this.infoForm.nickname) ? this.infoForm.nickname : undefined,
             email: this.isNotBlank(this.infoForm.email) ? this.infoForm.email : undefined,
             phone: this.isNotBlank(this.infoForm.phone) ? this.infoForm.phone : undefined
           }
           userInfoUpdateAPI(param).then(res => {
-            this.$message.success('个人资料更新成功')
+            this.$message.success(res.msg)
             this.doGetUserInfo()
           }).catch(() => {})
         }
