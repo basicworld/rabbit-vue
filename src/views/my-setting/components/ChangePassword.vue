@@ -21,7 +21,6 @@
 
 <script>
 import { userPasswordUpdateApi } from '@/api/personal'
-import { RESP_CODE } from '@/utils/response-code'
 import { encrypt } from '@/utils/jsencrypt'
 
 export default {
@@ -83,12 +82,8 @@ export default {
             newPassword: encrypt(this.form.password)
           }
           userPasswordUpdateApi(parm).then(res => {
-            if (res.code === RESP_CODE.OK) {
-              this.$message.success('修改密码成功')
-              this.onCancel()
-            } else {
-              this.$messge.warning('请求异常：' + res.code)
-            }
+            this.$message.success('修改密码成功')
+            this.onCancel()
           }).catch(() => {})
         } else {
           console.log('表单校验失败，不能提交')

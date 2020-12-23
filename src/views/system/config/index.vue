@@ -55,6 +55,8 @@
 <script>
 import { configListAPI, configReCacheAPI, configUpdateAPI, emailConfigTestAPI } from '@/api/system/config'
 import { diffObjectFunc } from '@/utils/object-util'
+import { areYouOk } from '@/api/router'
+
 export default {
   name: 'Config',
   data() {
@@ -77,7 +79,9 @@ export default {
     }
   },
   created() {
-    this.getList()
+    areYouOk().then(() => {
+      this.getList()
+    })
   },
   methods: {
     sendEmail() {

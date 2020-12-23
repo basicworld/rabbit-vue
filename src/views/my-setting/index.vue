@@ -34,12 +34,17 @@
 <script>
 import ChangePassword from './components/ChangePassword'
 import PersonalInformation from './components/PersonalInformation'
+import { areYouOk } from '@/api/router'
+
 export default {
   components: { ChangePassword, PersonalInformation },
   data() {
     return {
       activeMenuIndex: '1'
     }
+  },
+  created() {
+    areYouOk()
   },
   methods: {
     handleMenuSelect(index) {

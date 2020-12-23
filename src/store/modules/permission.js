@@ -1,5 +1,5 @@
 import { constantRoutes } from '@/router'
-import { getRoutersAPI } from '@/api/menu'
+import { getRoutersAPI } from '@/api/router'
 import Layout from '@/layout/index'
 import { removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'

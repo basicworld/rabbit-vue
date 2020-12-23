@@ -23,7 +23,6 @@
 <script>
 import { validCellphone } from '@/utils/validate'
 import { userInfoUpdateAPI, getInfo } from '@/api/personal'
-import { RESP_CODE } from '@/utils/response-code'
 export default {
 
   data() {
@@ -86,12 +85,8 @@ export default {
             phone: this.isNotBlank(this.form.phone) ? this.form.phone : undefined
           }
           userInfoUpdateAPI(param).then(res => {
-            if (res.code === RESP_CODE.OK) {
-              this.$message.success('个人资料更新成功')
-              this.doGetUserInfo()
-            } else {
-              this.$messge.warning('请求异常：' + res.code)
-            }
+            this.$message.success('个人资料更新成功')
+            this.doGetUserInfo()
           }).catch(() => {})
         } else {
           console.log('表单校验失败')

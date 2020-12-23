@@ -9,3 +9,13 @@ export function getRoutersAPI() {
     method: 'get'
   })
 }
+
+/**
+ * 确认后台通讯是否正常
+ */
+export function areYouOk() {
+  return request({
+    url: '/ping',
+    method: 'get'
+  })
+}

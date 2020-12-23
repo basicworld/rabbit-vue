@@ -9,6 +9,7 @@
 
 <script>
 import LineChart from './components/LineChart'
+import { areYouOk } from '@/api/router'
 
 export default {
   name: 'Echart',
@@ -22,6 +23,9 @@ export default {
         actualData: [120, 82, 91, 154, 162, 140, 145]
       }
     }
+  },
+  created() {
+    areYouOk()
   }
 
 }

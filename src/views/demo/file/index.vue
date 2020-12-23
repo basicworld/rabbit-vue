@@ -20,12 +20,17 @@
 </template>
 <script>
 import { fileUploadAPI, fileDeleteAPI, fileDownloadFunc } from '@/api/demo/file'
+import { areYouOk } from '@/api/router'
+
 export default {
   name: 'DemoFile',
   data() {
     return {
       fileList: []
     }
+  },
+  created() {
+    areYouOk()
   },
   methods: {
     // 执行删除

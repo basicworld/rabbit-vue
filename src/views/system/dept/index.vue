@@ -107,6 +107,7 @@ import { deptTreeAPI, deptCreateAPI, deptUpdateAPI, deptGetAPI, deptDeleteAPI } 
 import { roleListAPI } from '@/api/system/role'
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+import { areYouOk } from '@/api/router'
 
 export default {
   name: 'Dept',
@@ -195,8 +196,10 @@ export default {
     }
   },
   created() {
-    this.getList()
-    this.getRoleOptions()
+    areYouOk().then(() => {
+      this.getList()
+      this.getRoleOptions()
+    })
   },
   methods: {
 

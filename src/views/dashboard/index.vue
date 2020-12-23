@@ -11,6 +11,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { areYouOk } from '@/api/router'
 export default {
   name: 'DashboardCustomer',
   data() {
@@ -21,6 +22,9 @@ export default {
     ...mapGetters([
       'name'
     ])
+  },
+  created() {
+    areYouOk()
   }
 }
 </script>

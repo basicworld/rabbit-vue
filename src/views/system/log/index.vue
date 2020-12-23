@@ -130,6 +130,8 @@
 <script>
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 import { logtypeListAPI, logListAPI, logGetAPI } from '@/api/system/log'
+import { areYouOk } from '@/api/router'
+
 export default {
   name: 'Log',
   components: { Pagination },
@@ -173,8 +175,10 @@ export default {
     }
   },
   created() {
-    this.getList()
-    this.getLogtype()
+    areYouOk().then(() => {
+      this.getList()
+      this.getLogtype()
+    })
   },
   methods: {
     // 查看日志详情

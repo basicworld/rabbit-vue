@@ -115,6 +115,8 @@
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 import { roleListAPI, roleCreateAPI, roleUpdateAPI, roleGetAPI, roleDeleteAPI } from '@/api/system/role'
 import { menuTreeselectAPI } from '@/api/system/menu'
+import { areYouOk } from '@/api/router'
+
 export default {
   name: 'Role',
   components: { Pagination },
@@ -166,7 +168,9 @@ export default {
     }
   },
   created() {
-    this.getList()
+    areYouOk().then(() => {
+      this.getList()
+    })
   },
   methods: {
     // 取消按钮

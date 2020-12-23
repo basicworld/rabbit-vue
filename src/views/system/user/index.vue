@@ -144,6 +144,7 @@ import { userResetPasswordAPI, userListAPI, userCreateAPI, userUpdateAPI, userGe
 import { deptListAPI } from '@/api/system/dept'
 import { roleListAPI } from '@/api/system/role'
 import { encrypt } from '@/utils/jsencrypt'
+import { areYouOk } from '@/api/router'
 
 export default {
   name: 'User',
@@ -231,9 +232,11 @@ export default {
     }
   },
   created() {
-    this.getList()
-    this.getDeptOptions()
-    this.getRoleOptions()
+    areYouOk().then(() => {
+      this.getList()
+      this.getDeptOptions()
+      this.getRoleOptions()
+    })
   },
   methods: {
     // 重置密码

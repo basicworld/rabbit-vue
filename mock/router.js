@@ -1,4 +1,15 @@
 module.exports = [
+  // 后台连通性
+  {
+    url: '/ping',
+    type: 'get',
+    response: config => {
+      return {
+        'msg': 'pong',
+        'code': 20000
+      }
+    }
+  },
   // 菜单
   {
     url: '/router',
