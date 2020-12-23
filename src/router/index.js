@@ -55,15 +55,15 @@ export const constantRoutes = [
     }]
   },
   {
-    path: '/my-setting',
+    path: '/my-profile',
     component: Layout,
     hidden: true,
     children: [
       {
         path: 'index',
-        name: '个人设置',
-        component: () => import('@/views/my-setting/index'),
-        meta: { title: '个人设置', icon: 'form' }
+        name: '个人中心',
+        component: () => import('@/views/my-profile/index'),
+        meta: { title: '个人中心', icon: 'form' }
       }
     ]
   }
