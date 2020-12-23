@@ -64,7 +64,7 @@
       <el-table-column prop="name" label="角色名称" />
       <el-table-column prop="code" label="角色代码" />
       <el-table-column prop="intro" label="描述" />
-      <el-table-column fixed="right" label="操作" align="center">
+      <el-table-column fixed="right" label="操作" align="center" width="160">
         <template slot-scope="scope">
           <el-button type="text" size="mini" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改</el-button>
           <el-button type="text" size="mini" icon="el-icon-delete" @click="handleDelete(scope.row)">删除</el-button>

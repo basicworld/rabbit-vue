@@ -55,7 +55,7 @@
       <el-table-column prop="phone" label="手机号" />
       <el-table-column prop="email" label="邮箱" />
       <el-table-column prop="deptName" label="部门" />
-      <el-table-column fixed="right" label="操作" align="center" width="220">
+      <el-table-column fixed="right" label="操作" align="center" width="180">
         <template slot-scope="scope">
           <el-button type="text" size="mini" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改</el-button>
           <el-button type="text" size="mini" icon="el-icon-delete" @click="handleDelete(scope.row)">删除</el-button>

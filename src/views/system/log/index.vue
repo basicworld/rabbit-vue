@@ -79,7 +79,7 @@
     />
     <!--弹窗操作区-->
     <!-- 查看日志详情 -->
-    <el-dialog title="日志详情" :visible.sync="open" append-to-body>
+    <el-dialog title="日志详情" :visible.sync="open" append-to-body :width="dialogWidth">
       <table width="100%" class="table">
         <tr>
           <td>日志编号</td>
@@ -151,6 +151,8 @@ export default {
       total: 0,
       // 弹出层标题
       title: '',
+      // 对话框宽度
+      dialogWidth: '50%',
       // 是否显示弹出层
       open: false,
       // 可选日志类型
@@ -180,7 +182,24 @@ export default {
       this.getLogtype()
     })
   },
+  mounted() {
+    this.setDialogWidth()
+    window.onresize = () => {
+      return (() => {
+        this.setDialogWidth()
+      })()
+    }
+  },
   methods: {
+    setDialogWidth() {
+      var val = document.body.clientWidth
+      const def = 800 // 默认宽度
+      if (val < def) {
+        this.dialogWidth = '100%'
+      } else {
+        this.dialogWidth = '50%'
+      }
+    },
     // 查看日志详情
     showDetail(log) {
       logGetAPI(log.id).then(resp => {

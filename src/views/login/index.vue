@@ -1,10 +1,6 @@
 <template>
   <div class="login-container">
-    <img
-      src="../../assets/images/computer.png"
-      alt="加载失败"
-      style="width:36%;height:36%;position:absolute;top:26%;left:12%;"
-    >
+
     <el-form
       ref="loginForm"
       :model="loginForm"
@@ -211,7 +207,7 @@ $light_gray:#eee;
     width: 400px;
     max-width: 100%;
     padding: 40px 35px 30px;
-    margin: 100px 60% 0;
+    margin: 8% auto;
     overflow: hidden;
     border-radius: 1%;
   }
